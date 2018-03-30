@@ -1,0 +1,20 @@
+#!usr/bin/env/ python3
+import sys
+import os
+def main():
+    home = os.environ['HOME']
+    try:
+        if os.path.isdir(sys.argv[1]):
+            with open(os.path.join(home,".bash_profile"),"a") as f:
+                result = 'export PATH={}:$PATH'.format(sys.argv[1])
+                f.write(result)
+
+        else:
+            print("{} is not a dir and cannot be added to\
+path".format(sys.argv[1]))
+    except Exception as e:
+        print("exception {} all args {} ".format(e,sys.argv))
+
+if __name__ == '__main__':
+	main()
+

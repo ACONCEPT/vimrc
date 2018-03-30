@@ -1,0 +1,7 @@
+#! /usr/bin/env bash
+arg=$(realpath ${1})
+arg1=$(realpath ${2:-$HOME/.bash_profile})
+python3 $HOME/bin/add_to_bp.py $arg $arg1
+
+
+

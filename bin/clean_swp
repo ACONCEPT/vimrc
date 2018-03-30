@@ -1,0 +1,3 @@
+#! /usr/bin/env bash
+runfolder="$HOME/repos/sims/"
+python3 $HOME/bin/remove_swaps.py $runfolder
