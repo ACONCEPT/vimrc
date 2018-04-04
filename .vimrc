@@ -93,7 +93,7 @@ noremap ,sw :vertical resize +200<CR>
 noremap ,ee $
 noremap ,er ^
 noremap ,op <CR>p
-noremap ,ra ^d0k$Jxi 
+noremap ,ra ^d0k$Jxij
 noremap ,gb gT
 
 
@@ -186,7 +186,7 @@ endfunction
 "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 "bash registers
 function! BashRegisters()
-	let @b="#! usr/bin/env bash"
+	let @b="#! /usr/bin/env bash"
  	let @p="bash"
 	let @d="DIR=\"$(cd -P \"$(dirname \"${BASH_SOURCE[0]}\")\" && pwd)\""
 	let @c="#"
@@ -204,7 +204,7 @@ noremap <F8> :exec 'bash' shellescape(@%,1)<CR>
 "python_registers
 function! PythonRegisters()
 	let @b="#! usr/bin/env python3\n\ndef main():\n\tpass\n\nif __name__ == '__main__':\n\tmain()"
-	let @t="	"
+	let @t="\t"
 	let @c="#" 
   	let @p='python3'
 	let @==""
@@ -373,3 +373,5 @@ noremap ,tc :call RunConfig("bash","~/bin/run_testcommand.sh","")<CR>
 :command! Omr :vsp /home/joe/repos/request_test/make_request.py
 :command! Ogt :vsp /home/joe/repos/df/workspace/apps/geofencing/middleware/apollo/geofence_trigger.py
 noremap! ,tc :call  RunConfig("bash","~/bin/run_testcommand.sh","")<CR>
+
+let @k='$KAFKA'
