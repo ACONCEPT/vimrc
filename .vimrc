@@ -18,7 +18,7 @@ Plugin 'gmarik/Vundle.vim'
 Plugin 'vim-syntastic/syntastic'
 "Plugin 'nvie/vim-flake8'
 Plugin 'vim-scripts/indentpython.vim'
-Bundle 'Valloric/YouCompleteMe' 
+Plugin 'davidhalter/jedi-vim'
 "python3  ~/.vim/bundle/YouCompleteMe/install.py run this to complete the
 "installation of YouCompleteMe
 "Plugin 'scrooloose/nerdcommenter'

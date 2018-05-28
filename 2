@@ -7,15 +7,15 @@
 #sudo apt-get install python3-venv
 
 # for arch
-#sudo pacman -Syu python #installs latest python by default
-#sudo pacman -Syu python-pip #installs pip for python3 by default
-#sudo pacman -Syu vim-jedi #installs vim-jedi for vundle
+sudo pacman -Syu python #installs latest python by default
+sudo pacman -Syu python-pip #installs pip for python3 by default
 
 cd $HOME
-vim +BundleInstall +qall
+git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+
+pip3 install --update pip
 ssh-keygen -t rsa -f ~/.ssh/github
 #add bin to path
-mkdir -p $HOME/bin
 if [ -d "$HOME/bin" ] ; then
 	PATH="$PATH:$HOME/bin"
 fi
