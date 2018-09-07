@@ -66,9 +66,19 @@ endfor
 " Kill the capslock when leaving insert mode.
 autocmd InsertLeave * set iminsert=0
 "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-"================================================================
+"from the readme at https://github.com/amix/vimrc====================================================
 "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-"from https://github.com/amix/vimrc
+"for managing vim tabs
+map  tn :tabnew<cr>
+map  to :tabonly<cr>
+map  tc :tabclose<cr>
+map  tm :tabmove
+
+"switch to CWD to the dirctory of the current file
+noremap ,cd :cd %:p:h<cr>:pwd<cr>CR>
+
+"search what is selected in visual block
+vnoremap <silent> * :call VisualSelection('f' )<CR>
 
 "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 "================================================================
@@ -227,6 +237,7 @@ au BufNewFile,BufRead *.py
     \ set expandtab |
     \ set autoindent |
     \ set fileformat=unix 
+
 "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 "ENVIRONMENT AND EXECUTION ================================================================
 "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -287,9 +298,9 @@ noremap <F6> :call RunConfig(@p,"~/repos/sims/src/main.py",@o)<CR>
 "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 "ENVIRONMENT ACTIVATION================================================================
 "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-function! DfEnv()
-    let @p= $GEOFENV
-    echo $GEOFENV
+function! ActivateENV()
+    let @p= $VIMENV
+    echo $VIMENV
 endfunction
 noremap ,e0 :call DfEnv()<CR> 
 
@@ -341,37 +352,7 @@ function! AssignSettings()
 	endif
 endfunction
 "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-"from the readme at https://github.com/amix/vimrc====================================================
-"++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-"for managing vim tabs
-map  tn :tabnew<cr>
-map  to :tabonly<cr>
-map  tc :tabclose<cr>
-map  tm :tabmove
-
-"switch to CWD to the dirctory of the current file
-noremap ,cd :cd %:p:h<cr>:pwd<cr>CR>
-
-"search what is selected in visual block
-vnoremap <silent> * :call VisualSelection('f' )<CR>
-
-"++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-"================================================================
-"++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-"
-"
-"++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 "file shortcuts and run configuration================================================================
 "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 :command! Oafs :vsp /home/joe/bin/add_file_shortcut.py
 :command! Oatb :vsp /home/joe/bin/home/joe/bin/add_to_bp.py
-noremap ,sfc :call RunConfig("python3","~/bin/add_file_shortcut.py", "file ".expand("%"))<CR>
-noremap ,src :call RunConfig("python3","~/bin/add_file_shortcut.py","run ".@p.' '.@i.' '.@o)<CR>
-noremap ,sg :call RunConfig("bash","~/bin/commit_vimrc.sh","defaultcomment")<CR>
-noremap ,tc :call RunConfig("bash","~/bin/run_testcommand.sh","")<CR>
-:command! Omau :vsp /home/joe/repos/df/workspace/apps/geofencing/apollo_unit.sh
-:command! Omr :vsp /home/joe/repos/request_test/make_request.py
-:command! Ogt :vsp /home/joe/repos/df/workspace/apps/geofencing/middleware/apollo/geofence_trigger.py
-noremap! ,tc :call  RunConfig("bash","~/bin/run_testcommand.sh","")<CR>
-
-let @k='$KAFKA'

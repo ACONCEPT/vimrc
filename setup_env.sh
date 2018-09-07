@@ -1,10 +1,11 @@
 #! usr/bin/env bash
 # for ubuntu
-#sudo add-apt-repository -y ppa:deadsnakes/ppa
-#sudo apt-get update -yq
-#sudo apt-get install -yq software-properties-common realpath python3.6 python3-pip xclip
-#pip3 install virtualenv
-#sudo apt-get install python3-venv
+sudo add-apt-repository -y ppa:deadsnakes/ppa
+sudo apt-get update -yq
+sudo apt-get install -yq software-properties-common realpath python3.6 python3-pip xclip
+pip3 install virtualenv
+sudo apt-get install python3-venv
+git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 
 # for arch
 #sudo pacman -Syu python #installs latest python by default
@@ -13,12 +14,11 @@
 
 cd $HOME
 vim +BundleInstall +qall
-ssh-keygen -t rsa -f ~/.ssh/github
 #add bin to path
 mkdir -p $HOME/bin
-if [ -d "$HOME/bin" ] ; then
-	PATH="$PATH:$HOME/bin"
-fi
+echo "PATH='$PATH:$HOME/bin" >> ~/.bashrc
+
 #addtobin $HOME/bin
-echo "copy this into your github ssh keys to enable ssh "
-cat ~/.ssh/github.pub
+#echo "copy this into your github ssh keys to enable ssh "
+#ssh-keygen -t rsa -f ~/.ssh/github
+#cat ~/.ssh/github.pub
