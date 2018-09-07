@@ -12,6 +12,8 @@ git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 #sudo pacman -Syu python-pip #installs pip for python3 by default
 #sudo pacman -Syu vim-jedi #installs vim-jedi for vundle
 
+cp .vimrc ~/.vimrc
+
 cd $HOME
 vim +BundleInstall +qall
 #add bin to path
