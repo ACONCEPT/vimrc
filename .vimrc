@@ -16,14 +16,9 @@ Plugin 'gmarik/Vundle.vim'
 
 " other vundle plugins
 Plugin 'vim-syntastic/syntastic'
-"Plugin 'nvie/vim-flake8'
 Plugin 'vim-scripts/indentpython.vim'
 Plugin 'davidhalter/jedi-vim'
-"python3  ~/.vim/bundle/YouCompleteMe/install.py run this to complete the
-"installation of YouCompleteMe
-"Plugin 'scrooloose/nerdcommenter'
 Plugin 'scrooloose/nerdtree'
-"Plugin 'Command-T'
 "run :BundleInstall to install all on vim
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -65,6 +60,7 @@ endfor
 
 " Kill the capslock when leaving insert mode.
 autocmd InsertLeave * set iminsert=0
+
 "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 "from the readme at https://github.com/amix/vimrc====================================================
 "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -262,10 +258,6 @@ function! Run()
 	:call SetInterpreter(@p)
 	:call SetArgs(@o)
 	:exec '!'b:interpreter b:buffer b:args
-"	:exec '!'b:interpreter
-"        :echo b:interpreter
-"        :echo b:buffer
-"        :echo b:args
 endfunction
 
 function! RunFile(file)
@@ -305,7 +297,7 @@ endfunction
 noremap ,e0 :call DfEnv()<CR> 
 
 function! AnacondaEnv()
-	let @p='/home/joe/anaconda3/envs/new/bin/python'
+	let @p='/home/ubuntu/anaconda3/bin/'
 	echo @p
 endfunction
 
@@ -335,7 +327,8 @@ function! AssignRegisters()
 	endif
 endfunction
 execute AssignRegisters()
-"sets subdirectory spewcific settings
+
+"sets subdirectory specific settings
 function! BelowDir(thedir)
 	let b:current_dir=expand("%:p")
 	let b:bdmatch = match(b:current_dir,"\\".a:thedir)
