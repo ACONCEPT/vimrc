@@ -17,8 +17,8 @@ Plugin 'gmarik/Vundle.vim'
 " other vundle plugins
 Plugin 'vim-syntastic/syntastic'
 Plugin 'vim-scripts/indentpython.vim'
-Plugin 'davidhalter/jedi-vim'
 Plugin 'scrooloose/nerdtree'
+"Plugin 'davidhalter/jedi-vim'
 "run :BundleInstall to install all on vim
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -235,6 +235,37 @@ au BufNewFile,BufRead *.py
     \ set fileformat=unix 
 
 "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+"GOLANG================================================================
+"++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+"golang_registers
+function! GolangRegisters()
+	"let @b="#! usr/bin/env python3\n\ndef main():\n\tpass\n\nif __name__ == '__main__':\n\tmain()"
+	let @t="\t"
+	let @c="//" 
+  	let @p='go'
+	let @==""
+    let @l="print()"
+    noremap ,pp "lPi"
+	noremap ,mm ^d0i	def A(self):
+	noremap ,mc
+	noremap ,pl ^iprint(A)
+endfunction
+"let @l='python3'
+"command to activate python registers
+:command! Togo :execute GolangRegisters()<CR>
+
+"default python buffer settings
+au BufNewFile,BufRead *.go
+    \ set tabstop=4 |
+    \ set softtabstop=4 |
+    \ set shiftwidth=4 |
+"    \ set textwidth=79 |
+    \ set expandtab |
+    \ set autoindent |
+    \ set fileformat=unix 
+
+
+"++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 "ENVIRONMENT AND EXECUTION ================================================================
 "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 function! SetInterpreter(interpreter)
@@ -321,7 +352,12 @@ function! AssignRegisters()
 		echo "activating bash registers"
 		execute BashRegisters()
         endif
-	if (b:python + b:bash) == -2
+	let b:golang=match(expand('%'),'\.go')
+	if b:golang != -1
+		echo "activating golang registers"
+		execute Golangregisters()
+	endif
+	if (b:python + b:bash + b:golang) == -3
 		echo "activating Vim Registers"
 		execute VimRegisters()
 	endif
