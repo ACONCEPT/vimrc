@@ -1,4 +1,6 @@
 set nocompatible              " required
+
+
 filetype off                  " required
 " get vundle into vim
 " git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
@@ -15,9 +17,11 @@ call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
 
 " other vundle plugins
-Plugin 'vim-syntastic/syntastic'
+"Plugin 'vim-syntastic/syntastic'
 Plugin 'vim-scripts/indentpython.vim'
 Plugin 'scrooloose/nerdtree'
+Plugin 'elzr/vim-json'
+Plugin 'mrk21/yaml-vim'
 "Plugin 'davidhalter/jedi-vim'
 "run :BundleInstall to install all on vim
 " All of your Plugins must be added before the following line
@@ -33,10 +37,6 @@ augroup automaticallySourceVimrc
       au!
       au bufwritepost .vimrc source ~/.vimrc
 augroup END
-
-"I don't remember what this does?
-let g:ycm_autoclose_preview_window_after_completion=1
-map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
 
 "highlighting, encoding, color, and base formatting 
 let python_highlight_all=1
@@ -61,6 +61,10 @@ endfor
 " Kill the capslock when leaving insert mode.
 autocmd InsertLeave * set iminsert=0
 
+" add yaml stuffs
+au! BufNewFile,BufReadPost *.{yaml,yml} set filetype=yaml foldmethod=indent
+autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
+
 "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 "from the readme at https://github.com/amix/vimrc====================================================
 "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -81,10 +85,10 @@ vnoremap <silent> * :call VisualSelection('f' )<CR>
 "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 "universal_registers
-let @t="    "
 let @r="<CR>"
 let @g="mayyGp'a}jma"
 let @a="$a,\\i			"
+let @t="`byiw`aAc. kbpA,ma`bjmb`a"
 
 
 "convenience mapping
@@ -92,6 +96,8 @@ let @a="$a,\\i			"
 :command! Wq wq
 :command! Q q
 :command! W w
+:command! Wa wa
+:command! Wqa wqa
 :command! Vrc :tabedit $HOME/.vimrc
 :command! Rsp :vertical resize +25
 :command! Rsm :vertical resize -25
@@ -101,7 +107,13 @@ noremap ,er ^
 noremap ,op <CR>p
 noremap ,ra ^d0k$Jxij
 noremap ,gb gT
+noremap ,ni ;.
 
+noremap ,h1 i#
+noremap ,h2 i##
+noremap ,h3 i###
+noremap ,h4 i####
+noremap ,h5 i#####
 
 "let mapleader="`"
 let mapleader=","
@@ -245,10 +257,12 @@ function! GolangRegisters()
   	let @p='go'
 	let @==""
     let @l="print()"
+	noremap ,re oif err != nil {return err}
+	noremap ,ie asq.Eq{"":})hhhi
     noremap ,pp "lPi"
 	noremap ,mm ^d0i	def A(self):
 	noremap ,mc
-	noremap ,pl ^iprint(A)
+	noremap ,pl ofmt.Println("")hi
 endfunction
 "let @l='python3'
 "command to activate python registers
@@ -355,7 +369,7 @@ function! AssignRegisters()
 	let b:golang=match(expand('%'),'\.go')
 	if b:golang != -1
 		echo "activating golang registers"
-		execute Golangregisters()
+		execute GolangRegisters()
 	endif
 	if (b:python + b:bash + b:golang) == -3
 		echo "activating Vim Registers"
@@ -385,3 +399,4 @@ endfunction
 "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 :command! Oafs :vsp /home/joe/bin/add_file_shortcut.py
 :command! Oatb :vsp /home/joe/bin/home/joe/bin/add_to_bp.py
+
