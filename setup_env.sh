@@ -18,6 +18,7 @@ cd $HOME
 vim +BundleInstall +qall
 #add bin to path
 mkdir -p $HOME/bin
+cp -r syntax ~/.vim/
 echo "PATH='$PATH:$HOME/bin" >> ~/.bashrc
 
 #addtobin $HOME/bin

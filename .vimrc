@@ -1,6 +1,4 @@
 set nocompatible              " required
-
-
 filetype off                  " required
 " get vundle into vim
 " git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
@@ -241,7 +239,6 @@ au BufNewFile,BufRead *.py
     \ set tabstop=4 |
     \ set softtabstop=4 |
     \ set shiftwidth=4 |
-"    \ set textwidth=79 |
     \ set expandtab |
     \ set autoindent |
     \ set fileformat=unix 
@@ -256,10 +253,10 @@ function! GolangRegisters()
 	let @c="//" 
   	let @p='go'
 	let @==""
-    let @l="print()"
+    	let @l="print()"
 	noremap ,re oif err != nil {return err}
 	noremap ,ie asq.Eq{"":})hhhi
-    noremap ,pp "lPi"
+    	noremap ,pp "lPi"
 	noremap ,mm ^d0i	def A(self):
 	noremap ,mc
 	noremap ,pl ofmt.Println("")hi
@@ -273,10 +270,10 @@ au BufNewFile,BufRead *.go
     \ set tabstop=4 |
     \ set softtabstop=4 |
     \ set shiftwidth=4 |
-"    \ set textwidth=79 |
     \ set expandtab |
     \ set autoindent |
-    \ set fileformat=unix 
+    \ set fileformat=unix |
+    \ set syntax=go
 
 
 "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
