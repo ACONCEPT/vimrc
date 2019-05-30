@@ -15,12 +15,15 @@ call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
 
 " other vundle plugins
-"Plugin 'vim-syntastic/syntastic'
+Plugin 'vim-syntastic/syntastic'
+"Plugin 'nvie/vim-flake8'
 Plugin 'vim-scripts/indentpython.vim'
-Plugin 'scrooloose/nerdtree'
-Plugin 'elzr/vim-json'
-Plugin 'mrk21/yaml-vim'
 "Plugin 'davidhalter/jedi-vim'
+"python3  ~/.vim/bundle/YouCompleteMe/install.py run this to complete the
+"installation of YouCompleteMe
+"Plugin 'scrooloose/nerdcommenter'
+Plugin 'scrooloose/nerdtree'
+"Plugin 'Command-T'
 "run :BundleInstall to install all on vim
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -35,6 +38,10 @@ augroup automaticallySourceVimrc
       au!
       au bufwritepost .vimrc source ~/.vimrc
 augroup END
+
+"I don't remember what this does?
+let g:ycm_autoclose_preview_window_after_completion=1
+map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
 
 "highlighting, encoding, color, and base formatting 
 let python_highlight_all=1
@@ -58,35 +65,22 @@ endfor
 
 " Kill the capslock when leaving insert mode.
 autocmd InsertLeave * set iminsert=0
-
-" add yaml stuffs
-au! BufNewFile,BufReadPost *.{yaml,yml} set filetype=yaml foldmethod=indent
-autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
-
 "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-"from the readme at https://github.com/amix/vimrc====================================================
+"================================================================
 "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-"for managing vim tabs
-map  tn :tabnew<cr>
-map  to :tabonly<cr>
-map  tc :tabclose<cr>
-map  tm :tabmove
-
-"switch to CWD to the dirctory of the current file
-noremap ,cd :cd %:p:h<cr>:pwd<cr>CR>
-
-"search what is selected in visual block
-vnoremap <silent> * :call VisualSelection('f' )<CR>
+"from https://github.com/amix/vimrc
 
 "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 "================================================================
 "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 "universal_registers
+let @t="    "
 let @r="<CR>"
 let @g="mayyGp'a}jma"
 let @a="$a,\\i			"
-let @t="`byiw`aAc. kbpA,ma`bjmb`a"
+let @w="wea = \" kb${ kbmodule.naps__lambda.invoke_arn}\""
+
 
 
 "convenience mapping
@@ -94,8 +88,6 @@ let @t="`byiw`aAc. kbpA,ma`bjmb`a"
 :command! Wq wq
 :command! Q q
 :command! W w
-:command! Wa wa
-:command! Wqa wqa
 :command! Vrc :tabedit $HOME/.vimrc
 :command! Rsp :vertical resize +25
 :command! Rsm :vertical resize -25
@@ -105,13 +97,7 @@ noremap ,er ^
 noremap ,op <CR>p
 noremap ,ra ^d0k$Jxij
 noremap ,gb gT
-noremap ,ni ;.
 
-noremap ,h1 i#
-noremap ,h2 i##
-noremap ,h3 i###
-noremap ,h4 i####
-noremap ,h5 i#####
 
 "let mapleader="`"
 let mapleader=","
@@ -239,43 +225,10 @@ au BufNewFile,BufRead *.py
     \ set tabstop=4 |
     \ set softtabstop=4 |
     \ set shiftwidth=4 |
+"    \ set textwidth=79 |
     \ set expandtab |
     \ set autoindent |
     \ set fileformat=unix 
-
-"++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-"GOLANG================================================================
-"++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-"golang_registers
-function! GolangRegisters()
-	"let @b="#! usr/bin/env python3\n\ndef main():\n\tpass\n\nif __name__ == '__main__':\n\tmain()"
-	let @t="\t"
-	let @c="//" 
-  	let @p='go'
-	let @==""
-    	let @l="print()"
-	noremap ,re oif err != nil {return err}
-	noremap ,ie asq.Eq{"":})hhhi
-    	noremap ,pp "lPi"
-	noremap ,mm ^d0i	def A(self):
-	noremap ,mc
-	noremap ,pl ofmt.Println("")hi
-endfunction
-"let @l='python3'
-"command to activate python registers
-:command! Togo :execute GolangRegisters()<CR>
-
-"default python buffer settings
-au BufNewFile,BufRead *.go
-    \ set tabstop=4 |
-    \ set softtabstop=4 |
-    \ set shiftwidth=4 |
-    \ set expandtab |
-    \ set autoindent |
-    \ set fileformat=unix |
-    \ set syntax=go
-
-
 "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 "ENVIRONMENT AND EXECUTION ================================================================
 "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -300,6 +253,10 @@ function! Run()
 	:call SetInterpreter(@p)
 	:call SetArgs(@o)
 	:exec '!'b:interpreter b:buffer b:args
+"	:exec '!'b:interpreter
+"        :echo b:interpreter
+"        :echo b:buffer
+"        :echo b:args
 endfunction
 
 function! RunFile(file)
@@ -332,14 +289,14 @@ noremap <F6> :call RunConfig(@p,"~/repos/sims/src/main.py",@o)<CR>
 "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 "ENVIRONMENT ACTIVATION================================================================
 "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-function! ActivateENV()
-    let @p= $VIMENV
-    echo $VIMENV
+function! DfEnv()
+    let @p= $GEOFENV
+    echo $GEOFENV
 endfunction
 noremap ,e0 :call DfEnv()<CR> 
 
 function! AnacondaEnv()
-	let @p='/home/ubuntu/anaconda3/bin/'
+	let @p='/home/joe/anaconda3/envs/new/bin/python'
 	echo @p
 endfunction
 
@@ -363,19 +320,13 @@ function! AssignRegisters()
 		echo "activating bash registers"
 		execute BashRegisters()
         endif
-	let b:golang=match(expand('%'),'\.go')
-	if b:golang != -1
-		echo "activating golang registers"
-		execute GolangRegisters()
-	endif
-	if (b:python + b:bash + b:golang) == -3
+	if (b:python + b:bash) == -2
 		echo "activating Vim Registers"
 		execute VimRegisters()
 	endif
 endfunction
 execute AssignRegisters()
-
-"sets subdirectory specific settings
+"sets subdirectory spewcific settings
 function! BelowDir(thedir)
 	let b:current_dir=expand("%:p")
 	let b:bdmatch = match(b:current_dir,"\\".a:thedir)
@@ -392,8 +343,37 @@ function! AssignSettings()
 	endif
 endfunction
 "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+"from the readme at https://github.com/amix/vimrc====================================================
+"++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+"for managing vim tabs
+map  tn :tabnew<cr>
+map  to :tabonly<cr>
+map  tc :tabclose<cr>
+map  tm :tabmove
+
+"switch to CWD to the dirctory of the current file
+noremap ,cd :cd %:p:h<cr>:pwd<cr>CR>
+
+"search what is selected in visual block
+vnoremap <silent> * :call VisualSelection('f' )<CR>
+
+"++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+"================================================================
+"++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+"
+"
+"++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 "file shortcuts and run configuration================================================================
 "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 :command! Oafs :vsp /home/joe/bin/add_file_shortcut.py
 :command! Oatb :vsp /home/joe/bin/home/joe/bin/add_to_bp.py
+noremap ,sfc :call RunConfig("python3","~/bin/add_file_shortcut.py", "file ".expand("%"))<CR>
+noremap ,src :call RunConfig("python3","~/bin/add_file_shortcut.py","run ".@p.' '.@i.' '.@o)<CR>
+noremap ,sg :call RunConfig("bash","~/bin/commit_vimrc.sh","defaultcomment")<CR>
+noremap ,tc :call RunConfig("bash","~/bin/run_testcommand.sh","")<CR>
+:command! Omau :vsp /home/joe/repos/df/workspace/apps/geofencing/apollo_unit.sh
+:command! Omr :vsp /home/joe/repos/request_test/make_request.py
+:command! Ogt :vsp /home/joe/repos/df/workspace/apps/geofencing/middleware/apollo/geofence_trigger.py
+noremap! ,tc :call  RunConfig("bash","~/bin/run_testcommand.sh","")<CR>
 
+let @k='$KAFKA'
